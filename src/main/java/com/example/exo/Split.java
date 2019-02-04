@@ -1,27 +1,29 @@
 package com.example.exo;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 @RestController
 public class Split {
 	
-	    @RequestMapping(value=("/partitioner"), method=RequestMethod.POST)
+	@PostMapping("/partitioner")
 	   	    public  List<List<Integer>> partition(@RequestBody Data data) throws Exception {
 	    	int splitSize =data.getSplitSize();
 
 	    	List<Integer> inputList = data.getListInt();
-	    	if (inputList == null || inputList.isEmpty()) {
+	    	return splitListe(inputList,splitSize);
+	    }
+
+		public static List<List<Integer>> splitListe(List<Integer> inputList,int splitSize) throws Exception {
+			if (inputList == null || inputList.isEmpty()) {
 	           return null;
 	        }
 	        if (splitSize <1) {
@@ -37,6 +39,7 @@ public class Split {
 	                .values().stream().collect(Collectors.toCollection((ArrayList::new)));
 	    
 	    return partitioned;
-	    }
+		}
 	
+	    
 }
